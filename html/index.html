@@ -27,18 +27,31 @@
     </div>
 
     <div class="back flex justify-center items-center p-4 m-4">
-        <dialog class="dial bg-gray-200 pl-25 pr-25 pt-10 pb-10 rounded-lg shadow-lg mx-auto border border-black">
+        <dialog class="dial bg-gray-200 pl-25 pr-25 pt-10 pb-10 rounded-lg shadow-lg w-[60%] h-[70%] mt-20 mx-auto border border-black">
             <h1 class="text-4xl mb-4 text-center p-2">ADD BLOG</h1>
             <label for="title" class="text-2xl block mb-2">Title:</label>
             <input type="text" id="title" class="bg-gray-200 p-4 w-full mb-4 border border-gray-300 rounded-md shadow-lg">
             <label for="description" class="text-2xl block mb-2">Description:</label>
-            <textarea id="description" class="bg-gray-200 p-4 w-full mb-4 border border-gray-300 rounded-md shadow-lg"></textarea>
+            <textarea id="description" class="bg-gray-200 p-4 w-full mb-4 h-[50%] border border-gray-300 rounded-md shadow-lg"></textarea>
             <div class="flex gap-20">
-                <button class="close_btn flex bg-red-200 font-medium text-black p-5 rounded-lg hover:cursor-pointer hover:bg-white shadow-lg">Close</button>
-                <button class="submit_btn flex bg-red-200 font-medium text-black p-4 rounded-lg hover:cursor-pointer hover:bg-white shadow-lg" disabled="true">Create</button>
+                <button class="close_btn flex bg-red-200 font-medium text-black p-2 rounded-lg hover:cursor-pointer hover:bg-white shadow-lg">Close</button>
+                <button class="submit_btn flex bg-red-200 font-medium text-black p-2 rounded-lg hover:cursor-pointer hover:bg-white shadow-lg" disabled="true">Create</button>
             </div>
         </dialog>
     </div>
+
+    <dialog class="popUp bg-gray-200 pl-25 pr-25 pt-10 pb-10 rounded-lg shadow-lg w-[60%] h-[70%] mt-20 mx-auto border border-black">
+        <h1 class="text-2xl block mb-2">Title :</h1>
+        <p class="popTitle text-2xl block mb-2">
+
+        </p>
+
+        <h1 class="text-2xl block mb-2">Description : </h1>
+        <p class="popDes text-md block mb-2">
+            
+        </p>
+    </dialog>
+
 
     <script src="../js/index.js"></script>
 
