@@ -1,4 +1,3 @@
-
 var dial = document.querySelector(".dial");
 var add_btn = document.querySelector(".add_btn");
 var submit_btn = document.querySelector(".submit_btn")
@@ -10,9 +9,9 @@ const id = Date.now();
 let views = 0;
 
 
-function addToStorage() {
-    const title = title_inp.value;
-    const des = des_inp.value; 
+function addToStorage(new_title , new_des) {
+    const title = new_title;
+    const des = new_des; 
     
     storingBlogs.push({id,title , des,views});
     localStorage.setItem("storingBlogs" , JSON.stringify(storingBlogs));
@@ -31,7 +30,7 @@ close_btn.addEventListener("click" , () => {
 submit_btn.addEventListener("click" , () => {
     console.log(title_inp.value , "   Len is : " , title_inp.value.length);
     console.log("Submit Btn is clicked");
-    addToStorage();
+    addToStorage(title_inp.value , des_inp.value);
     dial.close();
     const blog = {id : id, title : title_inp.value , des : des_inp.value , views : views};
     addToPage(blog);
@@ -135,18 +134,33 @@ function addToPage(blog){
         viewDialog.style.marginTop = "50px"; 
         viewDialog.style.marginLeft = "auto"; 
         viewDialog.style.marginRight = "auto"; 
-        viewDialog.style.border = "1px solid black"; 
+        //viewDialog.style.border = "1px solid black";
 
+        // "VIEW" title 
+        const viewTitle = document.createElement("div");
+        viewTitle.textContent = "VIEW : ";
+        viewTitle.style.fontSize = "2.5rem";
+        viewTitle.style.textAlign = "center";
+        viewTitle.style.padding = "20px";
+        viewTitle.style.marginTop = "auto";
+        viewTitle.style.backgroundColor = "white";
+        viewTitle.style.borderRadius = "10px";
+        viewTitle.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+        
+
+        // "Title" in the dialog
         const titleLabel = document.createElement("h1");
         titleLabel.textContent = "Title :";
         titleLabel.style.fontSize = "1.5rem"; // Tailwind class: text-2xl
         titleLabel.style.display = "block"; // Tailwind class: block
         titleLabel.style.marginBottom = "0.5rem"; // Tailwind class: mb-2
+        titleLabel.style.marginTop = "0.5rem"; // Tailwind class: mb-2
         titleLabel.style.textAlign = "center";
 
         // Create and style the title content
         const titleView = document.createElement("p");
         titleView.textContent = blog.title;
+        //titleView.textContent = updatedTitle(blog.id);
         titleView.className = "popTitle";
         titleView.style.fontSize = "1.5rem"; // Tailwind class: text-2xl
         titleView.style.display = "block"; // Tailwind class: block
@@ -176,7 +190,7 @@ function addToPage(blog){
         desView.style.borderRadius = "10px";
         desView.style.height = "auto";
         desView.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
-        desView.style.width = "fit-content";
+        desView.style.width = "100%";
 
 
         // Creating a button for closing viewing option
@@ -209,6 +223,7 @@ function addToPage(blog){
 
 
         // Append elements to the dialog
+        viewDialog.appendChild(viewTitle);
         viewDialog.appendChild(titleLabel);
         viewDialog.appendChild(titleView);
         viewDialog.appendChild(descriptionLabel);
@@ -239,6 +254,186 @@ function addToPage(blog){
 
     addButEdit.textContent = "Edit";
 
+    addButEdit.addEventListener("click" , () => {
+
+        const editDialog = document.createElement("dialog");
+        document.body.appendChild(editDialog);
+        editDialog.className = "popUp";
+
+        editDialog.style.backgroundColor = "rgb(229 231 235)"; 
+        editDialog.style.paddingLeft = "25px"; 
+        editDialog.style.paddingRight = "25px"; 
+        editDialog.style.paddingTop = "10px"; 
+        editDialog.style.paddingBottom = "10px"; 
+        editDialog.style.borderRadius = "0.5rem"; 
+        editDialog.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+        editDialog.style.width = "60%"; 
+        editDialog.style.height = "70%"; 
+        editDialog.style.marginTop = "50px"; 
+        editDialog.style.marginLeft = "auto"; 
+        editDialog.style.marginRight = "auto"; 
+
+        // "Edit: " title in the dialog
+        const editTitle = document.createElement("div");
+        editTitle.textContent = "EDIT : ";
+        editTitle.style.fontSize = "2.5rem";
+        editTitle.style.textAlign = "center";
+        editTitle.style.padding = "20px";
+        editTitle.style.marginTop = "auto";
+        editTitle.style.backgroundColor = "white";
+        editTitle.style.borderRadius = "10px";
+        editTitle.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+
+        // Title in the edit dialog
+        const titleLabel = document.createElement("h1");
+        titleLabel.textContent = "Title :";
+        titleLabel.style.fontSize = "1.5rem"; 
+        titleLabel.style.display = "block"; 
+        titleLabel.style.marginBottom = "0.5rem"; 
+        titleLabel.style.marginTop = "0.5rem"; 
+        titleLabel.style.textAlign = "center";
+
+        // creating enable TITLE feature
+        const titleEdit = document.createElement("input");
+        titleEdit.type = "text";
+        titleEdit.value = blog.title;
+        titleEdit.style.backgroundColor = "rgb(229 231 235)"; 
+        titleEdit.className = "popTitle";
+        titleEdit.style.fontSize = "1.5rem"; 
+        titleEdit.style.display = "block"; 
+        titleEdit.style.marginBottom = "0.5rem"; 
+        titleEdit.style.margin = "auto";
+        titleEdit.style.padding = "10px";
+        titleEdit.style.borderRadius = "10px";
+        titleEdit.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+        titleEdit.style.alignItems = "center";
+        titleEdit.style.width = "100%";
+        titleEdit.style.border = "1px solid #ccc";
+
+        // "Description" title in page
+        const descriptionEdit = document.createElement("h1");
+        descriptionEdit.textContent = "Description :";
+        descriptionEdit.style.fontSize = "1.5rem"; 
+        descriptionEdit.style.display = "block"; 
+        descriptionEdit.style.marginBottom = "0.5rem";
+        descriptionEdit.style.marginTop = "0.5rem"; 
+        descriptionEdit.style.textAlign = "center";
+
+        // Edit description
+        const desEdit = document.createElement("input");
+        desEdit.type = "textarea";
+        desEdit.value = blog.des;
+        desEdit.className = "popDes";
+        desEdit.style.fontSize = "1rem"; 
+        desEdit.style.display = "block"; 
+        desEdit.style.marginBottom = "0.5rem"; 
+        //desEdit.style.backgroundColor = "white";
+        desEdit.style.padding = "10px";
+        desEdit.style.borderRadius = "10px";
+        desEdit.style.height = "auto";
+        desEdit.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+        desEdit.style.width = "100%";
+        desEdit.style.border = "1px solid #ccc";
+
+        // Close button
+        const popClose = document.createElement("button");
+        popClose.className = "closePop";
+        popClose.textContent = "Close";
+        popClose.style.backgroundColor = "#fecaca";
+        popClose.style.padding = "15px";
+        popClose.style.marginTop = "10px";
+        popClose.style.borderRadius = "10px";
+        popClose.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+
+        popClose.addEventListener("mouseover" , () => {
+            popClose.style.backgroundColor = "white";
+            popClose.style.cursor = "pointer";
+            
+        })
+
+        popClose.addEventListener("mouseout" , () => {
+            popClose.style.backgroundColor = "#fecaca";
+            
+        })
+
+        popClose.addEventListener("click" , () => {
+            editDialog.close();
+        })
+
+        // Edit button
+        const editSub = document.createElement("button");
+        editSub.className = "editPop";
+        editSub.textContent = "Edit";
+        editSub.style.backgroundColor = "#bbf7d0";
+        editSub.style.padding = "15px";
+        editSub.style.marginTop = "10px";
+        editSub.style.marginLeft = "4px";
+        editSub.style.borderRadius = "10px";
+        editSub.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+
+        editSub.addEventListener("mouseover" , () => {
+            editSub.style.backgroundColor = "white";
+            editSub.style.cursor = "pointer";
+            
+        })
+
+        editSub.addEventListener("mouseout" , () => {
+            editSub.style.backgroundColor = "#bbf7d0";
+            
+        })
+
+        editSub.addEventListener("click" , () => {
+                
+            const resTit =  titleEdit.value;
+            const resDes = desEdit.value;
+            updateEdit(blog.id , titleEdit.value , desEdit.value);
+            addTitle.textContent = resTit
+            addDes.textContent = resDes;
+            editDialog.close();
+
+
+            const titleView = document.createElement("p");
+            titleView.textContent = blog.title;
+            //titleView.textContent = updatedTitle(blog.id);
+            titleView.className = "popTitle";
+            titleView.style.fontSize = "1.5rem"; 
+            titleView.style.display = "block"; 
+            titleView.style.marginBottom = "0.5rem"; 
+            titleView.style.backgroundColor = "white";
+            titleView.style.padding = "10px";
+            titleView.style.borderRadius = "10px";
+            titleView.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+            
+            const desView = document.createElement("input");
+            desView.type = "textarea";
+            desView.value = blog.des;
+            desView.className = "popDes";
+            desView.style.fontSize = "1rem";
+            desView.style.display = "block"; 
+            desView.style.marginBottom = "0.5rem"; 
+            desView.style.padding = "10px";
+            desView.style.borderRadius = "10px";
+            desView.style.height = "auto";
+            desView.style.boxShadow = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+            desView.style.width = "100%";
+            desView.style.border = "1px solid #ccc";
+            
+        })
+
+
+        editDialog.appendChild(editTitle);
+        editDialog.appendChild(titleLabel);
+        editDialog.appendChild(titleEdit);
+        editDialog.appendChild(descriptionEdit);
+        editDialog.appendChild(desEdit);
+        editDialog.appendChild(popClose);
+        editDialog.appendChild(editSub);
+        
+        
+        editDialog.showModal();
+
+    })
+
     //Delete Button
     const addDelEdit = document.createElement("button");
     addDelEdit.className = "delete";
@@ -256,6 +451,9 @@ function addToPage(blog){
         addDelEdit.style.backgroundColor = "#fecaca"; 
         addDelEdit.style.color = ""; 
     });
+    addDelEdit.addEventListener("click" , () => {
+        deleteDiv(blog.id , addDiv);
+    })
 
     addDelEdit.textContent = "Delete";
 
@@ -278,11 +476,6 @@ function addToPage(blog){
     addDes.style.fontSize = "16px";
     addDes.style.lineHeight = "24px";
     addDes.style.padding = "2px";
-    /*addDes.style.whiteSpace = "nowrap";
-    addDes.style.overflow = "hidden";
-    addDes.style.textOverflow = "ellipsis";*/
-
-
 
     var res = truncateText(blog.des);
 
@@ -320,3 +513,20 @@ function updateViews(blogId, newViews) {
     
 }
 
+function updateEdit(blogId, newTitle, newDescription) {
+    const index = storingBlogs.findIndex(blog => blog.id === blogId);
+    if (index !== -1) {
+        storingBlogs[index].title = newTitle;
+        storingBlogs[index].des = newDescription;
+        localStorage.setItem("storingBlogs", JSON.stringify(storingBlogs));
+    }
+}
+
+function deleteDiv(blogId, addDiv) {
+    const index = storingBlogs.findIndex(blog => blog.id === blogId);
+    if (index !== -1) {
+        storingBlogs.splice(index, 1);
+        addDiv.remove();
+        localStorage.setItem("storingBlogs", JSON.stringify(storingBlogs));
+    }
+}
