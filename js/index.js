@@ -159,8 +159,7 @@ function addToPage(blog){
 
         // Create and style the title content
         const titleView = document.createElement("p");
-        titleView.textContent = blog.title;
-        //titleView.textContent = updatedTitle(blog.id);
+        titleView.textContent = showTitleOnView(blog.id);
         titleView.className = "popTitle";
         titleView.style.fontSize = "1.5rem"; // Tailwind class: text-2xl
         titleView.style.display = "block"; // Tailwind class: block
@@ -180,7 +179,7 @@ function addToPage(blog){
 
         // Create and style the description content
         const desView = document.createElement("p");
-        desView.textContent = blog.des;
+        desView.textContent = showDesOnView(blog.id);
         desView.className = "popDes";
         desView.style.fontSize = "1rem"; // Tailwind class: text-md
         desView.style.display = "block"; // Tailwind class: block
@@ -296,7 +295,8 @@ function addToPage(blog){
         // creating enable TITLE feature
         const titleEdit = document.createElement("input");
         titleEdit.type = "text";
-        titleEdit.value = blog.title;
+
+        titleEdit.value = showTitleOnView(blog.id);
         titleEdit.style.backgroundColor = "rgb(229 231 235)"; 
         titleEdit.className = "popTitle";
         titleEdit.style.fontSize = "1.5rem"; 
@@ -322,7 +322,7 @@ function addToPage(blog){
         // Edit description
         const desEdit = document.createElement("input");
         desEdit.type = "textarea";
-        desEdit.value = blog.des;
+        desEdit.value = showDesOnView(blog.id);
         desEdit.className = "popDes";
         desEdit.style.fontSize = "1rem"; 
         desEdit.style.display = "block"; 
@@ -387,13 +387,15 @@ function addToPage(blog){
             const resTit =  titleEdit.value;
             const resDes = desEdit.value;
             updateEdit(blog.id , titleEdit.value , desEdit.value);
-            addTitle.textContent = resTit
+            console.log(resTit);
+            console.log(resDes);
+            addTitle.textContent = resTit;
             addDes.textContent = resDes;
             editDialog.close();
 
 
             const titleView = document.createElement("p");
-            titleView.textContent = blog.title;
+            titleView.value = "hellow";
             //titleView.textContent = updatedTitle(blog.id);
             titleView.className = "popTitle";
             titleView.style.fontSize = "1.5rem"; 
@@ -406,7 +408,7 @@ function addToPage(blog){
             
             const desView = document.createElement("input");
             desView.type = "textarea";
-            desView.value = blog.des;
+            desView.value = "hiii";
             desView.className = "popDes";
             desView.style.fontSize = "1rem";
             desView.style.display = "block"; 
@@ -498,7 +500,7 @@ function truncateText(text) {
     return text;
 }
 
-const storingBlogs= JSON.parse(localStorage.getItem("storingBlogs")) || [];
+let storingBlogs= JSON.parse(localStorage.getItem("storingBlogs")) || [];
 storingBlogs.forEach(blog => {
     console.log("This is blog : " , blog);
     addToPage(blog);
@@ -519,6 +521,7 @@ function updateEdit(blogId, newTitle, newDescription) {
         storingBlogs[index].title = newTitle;
         storingBlogs[index].des = newDescription;
         localStorage.setItem("storingBlogs", JSON.stringify(storingBlogs));
+        updateBlogs(index);
     }
 }
 
@@ -528,5 +531,28 @@ function deleteDiv(blogId, addDiv) {
         storingBlogs.splice(index, 1);
         addDiv.remove();
         localStorage.setItem("storingBlogs", JSON.stringify(storingBlogs));
+    }
+}
+
+
+function updateBlogs(index){
+    storingBlogs = JSON.parse(localStorage.getItem("storingBlogs"));
+    console.log(storingBlogs);
+
+}
+
+function showTitleOnView(blogId){
+    const index = storingBlogs.findIndex(blog => blog.id === blogId);
+    if (index !== -1) {
+        console.log("Title form func : " , storingBlogs[index].title);
+        return storingBlogs[index].title;
+    }
+}
+
+function showDesOnView(blogId){
+    const index = storingBlogs.findIndex(blog => blog.id === blogId);
+    if (index !== -1) {
+        console.log("Des form func : " , storingBlogs[index].des);
+        return storingBlogs[index].des;
     }
 }
